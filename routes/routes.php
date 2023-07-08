@@ -8,8 +8,13 @@ use App\Controllers\ProductTypeController;
 use App\Controllers\TaxPercentageController;
 
 $app->get('/products', function (Request $request, Response $response, $args) {
-    $controller = new ProductController();
-    return $controller->getAllProducts($request, $response, $args);
+
+    $productController = new ProductController();
+    $response = $response
+        ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+        ->withHeader('Access-Control-Allow-Methods', 'GET')
+        ->withHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return $productController->getAllProducts($request, $response);
 });
 
 $app->post('/products', function (Request $request, Response $response, $args) {
@@ -33,4 +38,3 @@ $app->post('/tax', function (Request $request, Response $response, $args) {
     $taxPercentageController->create($data);
     return $response->withStatus(201)->withJson(['message' => 'Successfully registered tax percentage']);
 });
-

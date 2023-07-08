@@ -20,8 +20,6 @@ class TaxPercentageModel
             $stmt->bindParam(':type_id', $type_id);
             $stmt->execute();
         } catch (\PDOException $e) {
-            var_dump($e->getMessage());
-            exit;
             throw new \Exception('Erro ao gravar produtos do banco de dados: ' . $e->getMessage());
         }
     }

@@ -7,17 +7,12 @@ use App\Models\DatabaseConnection;
 
 class ProductModel
 {
-    public function getById($id)
-    {
-        // Implemente a lógica para obter um produto pelo ID do banco de dados ou outro meio de armazenamento
-    }
-
-    public static function getAll()
+    public function getAllProducts()
     {
         $db = new DatabaseConnection();
         try {
             $conn = $db->connect();
-            $stmt = $conn->query('SELECT * from products');
+            $stmt = $conn->query('SELECT * FROM products');
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             throw new \Exception('Erro ao obter produtos do banco de dados: ' . $e->getMessage());

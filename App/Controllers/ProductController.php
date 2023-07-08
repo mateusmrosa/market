@@ -10,10 +10,10 @@ use App\Models\ProductModel;
 
 class ProductController
 {
-    public function getAllProducts(Request $request, Response $response, $args)
+    public function getAllProducts(Request $request, Response $response)
     {
         $productModel = new ProductModel();
-        $products = $productModel->getAll();
+        $products = $productModel->getAllProducts();
 
         $response->getBody()->write(json_encode($products));
         return $response->withHeader('Content-Type', 'application/json');
