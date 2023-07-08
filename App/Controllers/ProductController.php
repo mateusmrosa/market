@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Entities\Product;
+use App\Entities\ProductType;
 use App\Models\ProductModel;
 
 class ProductController
@@ -25,9 +26,9 @@ class ProductController
 
         foreach ($products as $productData) {
 
-
             $product->setName($productData['name']);
             $product->setPrice($productData['price']);
+            $product->setTypeId($productData['type_id']);
 
             $productModel->createProducts($product);
         }

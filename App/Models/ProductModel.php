@@ -17,9 +17,7 @@ class ProductModel
         $db = new DatabaseConnection();
         try {
             $conn = $db->connect();
-            $stmt = $conn->query('SELECT pt.name AS type_name, p.name AS product_name, p.price
-                                  FROM product_types pt
-                                  JOIN products p ON pt.product_id = p.id;');
+            $stmt = $conn->query('SELECT * from products');
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             throw new \Exception('Erro ao obter produtos do banco de dados: ' . $e->getMessage());
@@ -29,13 +27,15 @@ class ProductModel
     public function createProducts(Product $product)
     {
         $name = $product->getName();
-        $prime = $product->getPrice();
+        $price = $product->getPrice();
+        $type_id = $product->getTypeId();
         $db = new DatabaseConnection();
         try {
             $conn = $db->connect();
-            $stmt = $conn->prepare('INSERT INTO products (name, price) VALUES (:name, :price)');
+            $stmt = $conn->prepare('INSERT INTO products (name, price, type_id) VALUES (:name, :price, :type_id)');
             $stmt->bindParam(':name', $name);
-            $stmt->bindParam(':price', $prime);
+            $stmt->bindParam(':price', $price);
+            $stmt->bindParam(':type_id', $type_id);
             $stmt->execute();
         } catch (\PDOException $e) {
             throw new \Exception('Erro ao gravar produtos do banco de dados: ' . $e->getMessage());

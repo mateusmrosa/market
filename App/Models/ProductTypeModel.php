@@ -3,28 +3,35 @@
 namespace App\Models;
 
 use App\Entities\ProductType;
+use App\Models\DatabaseConnection;
 
 class ProductTypeModel
 {
-    public function getById($id)
-    {
-        // Implemente a lógica para obter um tipo de produto pelo ID do banco de dados ou outro meio de armazenamento
-    }
+    // public static function getAll()
+    // {
+    //     $db = new DatabaseConnection();
+    //     try {
+    //         $conn = $db->connect();
+    //         $stmt = $conn->query('SELECT * from products');
+    //         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    //     } catch (\PDOException $e) {
+    //         throw new \Exception('Erro ao obter produtos do banco de dados: ' . $e->getMessage());
+    //     }
+    // }
 
-    public function getAll()
+    public function create(ProductType $productType)
     {
-        // Implemente a lógica para obter todos os tipos de produtos do banco de dados ou outro meio de armazenamento
+        $name = $productType->getName();
+        $db = new DatabaseConnection();
+        try {
+            $conn = $db->connect();
+            $stmt = $conn->prepare('INSERT INTO product_types (name) VALUES (:name)');
+            $valueName = implode(', ', $name);
+            $stmt->bindParam(':name', $valueName);
+            $stmt->execute();
+        } catch (\PDOException $e) {
+            throw new \Exception('Erro ao gravar tipos de produtos do banco de dados: ' . $e->getMessage());
+        }
     }
-
-    public function save(ProductType $productType)
-    {
-        // Implemente a lógica para salvar um tipo de produto no banco de dados ou outro meio de armazenamento
-    }
-
-    public function delete(ProductType $productType)
-    {
-        // Implemente a lógica para excluir um tipo de produto do banco de dados ou outro meio de armazenamento
-    }
-
-    // ...
+    
 }

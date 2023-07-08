@@ -6,8 +6,13 @@ class Product
 {
     private $id;
     private $name;
-    private $type;
+    private $type_id;
     private $price;
+
+    // public function __construct()
+    // {
+    //     $this->productType = new ProductType();
+    // }
 
     public function getId()
     {
@@ -29,14 +34,14 @@ class Product
         $this->name = $name;
     }
 
-    public function getType()
+    public function getTypeId()
     {
-        return $this->type;
+        return $this->type_id;
     }
 
-    public function setType($type)
+    public function setTypeId($type_id)
     {
-        $this->type = $type;
+        $this->type_id = $type_id;
     }
 
     public function getPrice()
@@ -48,4 +53,9 @@ class Product
     {
         $this->price = $price;
     }
+
+    // public function getProdutType()
+    // {
+    //     return $this->productType;
+    // }
 }
