@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Entities\Product;
 use App\Models\DatabaseConnection;
 
-class ProductModel
+class SaleModel
 {
     public function getAllProducts()
     {

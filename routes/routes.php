@@ -6,6 +6,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Controllers\ProductController;
 use App\Controllers\ProductTypeController;
 use App\Controllers\TaxPercentageController;
+use App\Controllers\SaleController;
 
 // config cors
 require_once 'cors.php'; 
@@ -61,4 +62,22 @@ $app->post('/tax', function (Request $request, Response $response, $args) {
 $app->get('/tax', function (Request $request, Response $response, $args) {
     $taxPercentageController = new TaxPercentageController();
     return $taxPercentageController->getAll($response);
+});
+
+
+$app->post('/sales', function (Request $request, Response $response, $args) {
+
+    $dataProductSale = $request->getParsedBody();
+
+    $saleController = new SaleController();
+
+    $valueTotalSale = 0;
+
+    foreach ($dataProductSale as $data) {
+        $valueTotalSale += $data['valorTotal']; 
+    }
+
+    $saleController->create($dataProductSale, $valueTotalSale);
+
+    return $response->withStatus(201)->withJson(['message' => 'Successfully registered products']);
 });
