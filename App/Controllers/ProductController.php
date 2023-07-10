@@ -15,22 +15,29 @@ class ProductController
         $productModel = new ProductModel();
         $products = $productModel->getAllProducts();
 
-        $response->getBody()->write(json_encode($products));
+        $data = array();
+        foreach ($products as $row) {
+            $entry = array(
+                'product_id' => $row['product_id'],
+                'product_name' => $row['product_name'],
+                'product_price' => $row['product_price'],
+                'prod_type_id' => $row['prod_type_id'],
+                'prod_type_name' => $row['prod_type_name'],
+                'prod_type_percentage' => $row['prod_type_percentage']
+            );
+            $data[] = $entry;
+        }
+        $response->getBody()->write(json_encode($data));
         return $response->withHeader('Content-Type', 'application/json');
     }
 
-    public function createProduct(array $products)
+    public function createProduct(array $data)
     {
         $productModel = new ProductModel();
         $product = new Product();
-
-        foreach ($products as $productData) {
-
-            $product->setName($productData['name']);
-            $product->setPrice($productData['price']);
-            $product->setTypeId($productData['type_id']);
-
-            $productModel->createProducts($product);
-        }
+        $product->setName($data['name']);
+        $product->setPrice($data['price']);
+        $product->setTypeId($data['type_id']);
+        $productModel->createProducts($product);
     }
 }

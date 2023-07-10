@@ -7,23 +7,42 @@ use App\Controllers\ProductController;
 use App\Controllers\ProductTypeController;
 use App\Controllers\TaxPercentageController;
 
-$app->get('/products', function (Request $request, Response $response, $args) {
+// config cors
+require_once 'cors.php'; 
 
+//start routes
+$app->get('/products', function (Request $request, Response $response, $args) {
     $productController = new ProductController();
-    $response = $response
-        ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-        ->withHeader('Access-Control-Allow-Methods', 'GET')
-        ->withHeader('Access-Control-Allow-Headers', 'Content-Type');
     return $productController->getAllProducts($request, $response);
 });
 
+
+$app->get('/products_type', function (Request $request, Response $response, $args) {
+    $productTypeController = new ProductTypeController();
+    return $productTypeController->getAll($response);
+});
+
+
 $app->post('/products', function (Request $request, Response $response, $args) {
-    $data = $request->getParsedBody();
-    $products = $data['products'];
+
+    $data = [
+        'name' => $request->getParam('name'),
+        'price' => $request->getParam('price'),
+        'type_id' => $request->getParam('type_id')
+    ];
+
     $productController = new ProductController();
-    $productController->createProduct($products);
+
+    $productController->createProduct($data);
+
+    $response = $response
+        ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+        ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
     return $response->withStatus(201)->withJson(['message' => 'Successfully registered products']);
 });
+
 
 $app->post('/products_type', function (Request $request, Response $response, $args) {
     $name = $request->getParsedBody();
@@ -37,4 +56,9 @@ $app->post('/tax', function (Request $request, Response $response, $args) {
     $taxPercentageController = new TaxPercentageController();
     $taxPercentageController->create($data);
     return $response->withStatus(201)->withJson(['message' => 'Successfully registered tax percentage']);
+});
+
+$app->get('/tax', function (Request $request, Response $response, $args) {
+    $taxPercentageController = new TaxPercentageController();
+    return $taxPercentageController->getAll($response);
 });
