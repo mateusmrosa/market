@@ -5,14 +5,9 @@ namespace App\Entities;
 class Sale
 {
     private $id;
-    private $name;
-    private $type_id;
-    private $price;
-
-    // public function __construct()
-    // {
-    //     $this->productType = new ProductType();
-    // }
+    private $product_id;
+    private $quantity;
+    private $total_amount;
 
     public function getId()
     {
@@ -24,38 +19,33 @@ class Sale
         $this->id = $id;
     }
 
-    public function getName()
+    public function getProductId()
     {
-        return $this->name;
+        return $this->product_id;
     }
 
-    public function setName($name)
+    public function setProductId($product_id)
     {
-        $this->name = $name;
+        $this->product_id = $product_id;
     }
 
-    public function getTypeId()
+    public function getQuantity()
     {
-        return $this->type_id;
+        return $this->quantity;
     }
 
-    public function setTypeId($type_id)
+    public function setQuantity($quantity)
     {
-        $this->type_id = $type_id;
+        $this->quantity = $quantity;
     }
 
-    public function getPrice()
+    public function getTotalAmount()
     {
-        return $this->price;
+        return $this->total_amount;
     }
 
-    public function setPrice($price)
+    public function setTotalAmount($total_amount)
     {
-        $this->price = $price;
+        $this->total_amount = $total_amount;
     }
-
-    // public function getProdutType()
-    // {
-    //     return $this->productType;
-    // }
 }

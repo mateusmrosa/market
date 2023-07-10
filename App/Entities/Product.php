@@ -9,11 +9,6 @@ class Product
     private $type_id;
     private $price;
 
-    // public function __construct()
-    // {
-    //     $this->productType = new ProductType();
-    // }
-
     public function getId()
     {
         return $this->id;
@@ -53,9 +48,4 @@ class Product
     {
         $this->price = $price;
     }
-
-    // public function getProdutType()
-    // {
-    //     return $this->productType;
-    // }
 }

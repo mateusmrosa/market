@@ -9,7 +9,7 @@ use App\Controllers\TaxPercentageController;
 use App\Controllers\SaleController;
 
 // config cors
-require_once 'cors.php'; 
+require_once 'cors.php';
 
 //start routes
 $app->get('/products', function (Request $request, Response $response, $args) {
@@ -66,18 +66,8 @@ $app->get('/tax', function (Request $request, Response $response, $args) {
 
 
 $app->post('/sales', function (Request $request, Response $response, $args) {
-
     $dataProductSale = $request->getParsedBody();
-
     $saleController = new SaleController();
-
-    $valueTotalSale = 0;
-
-    foreach ($dataProductSale as $data) {
-        $valueTotalSale += $data['valorTotal']; 
-    }
-
-    $saleController->create($dataProductSale, $valueTotalSale);
-
+    $saleController->create($dataProductSale);
     return $response->withStatus(201)->withJson(['message' => 'Successfully registered products']);
 });

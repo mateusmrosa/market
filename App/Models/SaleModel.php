@@ -2,42 +2,24 @@
 
 namespace App\Models;
 
-use App\Entities\Product;
+use App\Entities\Sale;
 use App\Models\DatabaseConnection;
 
 class SaleModel
 {
-    public function getAllProducts()
+    public function create(Sale $sale)
     {
-        $db = new DatabaseConnection();
-        try {
-            $conn = $db->connect();
-            $stmt = $conn->query('SELECT p.id AS product_id, p.name AS product_name, p.price AS product_price, 
-                                  pt.id AS prod_type_id, pt.name AS prod_type_name, 
-                                  tp.percentage AS prod_type_percentage
-                                  FROM products AS p
-                                  JOIN product_types AS pt ON p.type_id = pt.id
-                                  JOIN tax_percentages AS tp ON pt.id = tp.type_id
-                                  GROUP BY p.id, p.name, p.price, pt.id, pt.name, tp.percentage;');
-            return $stmt->fetchAll(\PDO::FETCH_BOTH);
-        } catch (\PDOException $e) {
-            throw new \Exception('Erro ao obter produtos do banco de dados: ' . $e->getMessage());
-        }
-    }
-
-    public function createProducts(Product $product)
-    {
-        $name = $product->getName();
-        $price = $product->getPrice();
-        $type_id = $product->getTypeId();
+        $product_id = $sale->getProductId();
+        $quantity = $sale->getQuantity();
+        $total_amount = $sale->getTotalAmount();
 
         $db = new DatabaseConnection();
         try {
             $conn = $db->connect();
-            $stmt = $conn->prepare('INSERT INTO products (name, price, type_id) VALUES (:name, :price, :type_id)');
-            $stmt->bindParam(':name', $name);
-            $stmt->bindParam(':price', $price);
-            $stmt->bindParam(':type_id', $type_id);
+            $stmt = $conn->prepare('INSERT INTO sales (product_id, quantity, total_amount) VALUES (:product_id, :quantity, :total_amount)');
+            $stmt->bindParam(':product_id', $product_id);
+            $stmt->bindParam(':quantity', $quantity);
+            $stmt->bindParam(':total_amount', $total_amount);
             $stmt->execute();
         } catch (\PDOException $e) {
             throw new \Exception('Erro ao gravar produtos do banco de dados: ' . $e->getMessage());
