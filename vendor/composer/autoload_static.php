@@ -8,6 +8,9 @@ class ComposerStaticInitf52d01e8b46f31c56815c8609e11a8b7
 {
     public static $files = array (
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
+        '256c1545158fc915c75e51a931bdba60' => __DIR__ . '/..' . '/lcobucci/jwt/compat/class-aliases.php',
+        '0d273777b2b0d96e49fb3d800c6b0e81' => __DIR__ . '/..' . '/lcobucci/jwt/compat/json-exception-polyfill.php',
+        'd6b246ac924292702635bb2349f4a64b' => __DIR__ . '/..' . '/lcobucci/jwt/compat/lcobucci-clock-polyfill.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -31,12 +34,17 @@ class ComposerStaticInitf52d01e8b46f31c56815c8609e11a8b7
         array (
             'Neomerx\\Cors\\' => 13,
         ),
+        'L' => 
+        array (
+            'Lcobucci\\JWT\\' => 13,
+        ),
         'I' => 
         array (
             'Interop\\Container\\' => 18,
         ),
         'F' => 
         array (
+            'Firebase\\JWT\\' => 13,
             'FastRoute\\' => 10,
         ),
     );
@@ -66,8 +74,8 @@ class ComposerStaticInitf52d01e8b46f31c56815c8609e11a8b7
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Container\\' => 
         array (
@@ -77,9 +85,17 @@ class ComposerStaticInitf52d01e8b46f31c56815c8609e11a8b7
         array (
             0 => __DIR__ . '/..' . '/neomerx/cors-psr7/src',
         ),
+        'Lcobucci\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
+        ),
         'Interop\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'FastRoute\\' => 
         array (

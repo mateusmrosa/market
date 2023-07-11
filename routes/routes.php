@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\AuthController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -12,6 +13,18 @@ use App\Controllers\SaleController;
 require_once 'cors.php';
 
 //start routes
+
+$app->post('/login', function (Request $request, Response $response, $args) {
+    $authController = new AuthController();
+    $data = array(
+        'email' => $request->getParam('email'),
+        'password' => $request->getParam('password')
+    );
+    $result = $authController->login($data, $response);
+    return $result;
+    
+});
+
 $app->get('/products', function (Request $request, Response $response, $args) {
     $productController = new ProductController();
     return $productController->getAllProducts($request, $response);
