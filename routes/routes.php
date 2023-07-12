@@ -22,7 +22,6 @@ $app->post('/login', function (Request $request, Response $response, $args) {
     );
     $result = $authController->login($data, $response);
     return $result;
-    
 });
 
 $app->get('/products', function (Request $request, Response $response, $args) {
