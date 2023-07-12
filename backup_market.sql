@@ -16,6 +16,20 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -162,6 +176,41 @@ ALTER SEQUENCE public.tax_percentages_id_seq OWNED BY public.tax_percentages.id;
 
 
 --
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    email character varying(100) NOT NULL,
+    password character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
 -- Name: product_types id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -190,6 +239,13 @@ ALTER TABLE ONLY public.tax_percentages ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
 -- Data for Name: product_types; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -199,6 +255,7 @@ COPY public.product_types (id, name) FROM stdin;
 21	Alimentação
 22	Bebidas
 23	Eletrodomesticos
+24	Produtos de Limpeza
 \.
 
 
@@ -227,6 +284,11 @@ COPY public.sales (id, product_id, quantity, total_amount) FROM stdin;
 26	30	10	159.00
 27	31	20	118.00
 28	28	4	14000.00
+29	28	3	10500.00
+30	30	5	79.50
+31	33	4	239.60
+32	32	5	24000.00
+33	30	10	159.00
 \.
 
 
@@ -244,10 +306,19 @@ COPY public.tax_percentages (id, type_id, percentage) FROM stdin;
 
 
 --
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id, email, password) FROM stdin;
+1	mateus@gmail.com	$2y$10$T4EzKNevqQkVhqrhAqMqq.ziJQfXMQN3g/bOAUCdC7fyS.kg5RQWO
+\.
+
+
+--
 -- Name: product_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.product_types_id_seq', 23, true);
+SELECT pg_catalog.setval('public.product_types_id_seq', 24, true);
 
 
 --
@@ -261,7 +332,7 @@ SELECT pg_catalog.setval('public.products_id_seq', 33, true);
 -- Name: sales_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sales_id_seq', 28, true);
+SELECT pg_catalog.setval('public.sales_id_seq', 33, true);
 
 
 --
@@ -269,6 +340,13 @@ SELECT pg_catalog.setval('public.sales_id_seq', 28, true);
 --
 
 SELECT pg_catalog.setval('public.tax_percentages_id_seq', 11, true);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 1, true);
 
 
 --
@@ -301,6 +379,14 @@ ALTER TABLE ONLY public.sales
 
 ALTER TABLE ONLY public.tax_percentages
     ADD CONSTRAINT tax_percentages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
 --
